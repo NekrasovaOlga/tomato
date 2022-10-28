@@ -40,6 +40,35 @@ __webpack_require__(/*! regenerator-runtime/runtime */ "./node_modules/regenerat
 
 /***/ }),
 
+/***/ "./src/js/tomatoClass.js":
+/*!*******************************!*\
+  !*** ./src/js/tomatoClass.js ***!
+  \*******************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (/* binding */ Tomato)
+/* harmony export */ });
+class Tomato {
+  constructor(name) {
+    let count = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 0;
+    this.id = Math.floor(Math.random() * 10000);
+    this.name = name;
+    this.count = count;
+  }
+  setReName(name) {
+    this.name = name;
+    return this;
+  }
+  increaseСount() {
+    this.count = this.count + 1;
+  }
+}
+
+/***/ }),
+
 /***/ "./node_modules/core-js/es6/index.js":
 /*!*******************************************!*\
   !*** ./node_modules/core-js/es6/index.js ***!
@@ -9096,6 +9125,81 @@ module.exports = __webpack_require__(/*! ../modules/_core */ "./node_modules/cor
 
 /***/ }),
 
+/***/ "./src/index.html":
+/*!************************!*\
+  !*** ./src/index.html ***!
+  \************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _node_modules_html_loader_dist_runtime_getUrl_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../node_modules/html-loader/dist/runtime/getUrl.js */ "./node_modules/html-loader/dist/runtime/getUrl.js");
+/* harmony import */ var _node_modules_html_loader_dist_runtime_getUrl_js__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_node_modules_html_loader_dist_runtime_getUrl_js__WEBPACK_IMPORTED_MODULE_0__);
+// Imports
+
+var ___HTML_LOADER_IMPORT_0___ = new URL(/* asset import */ __webpack_require__(/*! ./fonts/Montserrat-Regular.ttf */ "./src/fonts/Montserrat-Regular.ttf"), __webpack_require__.b);
+var ___HTML_LOADER_IMPORT_1___ = new URL(/* asset import */ __webpack_require__(/*! ./img/svg/noto_tomato.svg */ "./src/img/svg/noto_tomato.svg"), __webpack_require__.b);
+// Module
+var ___HTML_LOADER_REPLACEMENT_0___ = _node_modules_html_loader_dist_runtime_getUrl_js__WEBPACK_IMPORTED_MODULE_0___default()(___HTML_LOADER_IMPORT_0___);
+var ___HTML_LOADER_REPLACEMENT_1___ = _node_modules_html_loader_dist_runtime_getUrl_js__WEBPACK_IMPORTED_MODULE_0___default()(___HTML_LOADER_IMPORT_1___);
+var code = "<!DOCTYPE html>\n<html lang=\"ru\">\n<head>\n  <meta charset=\"UTF-8\">\n  <meta http-equiv=\"X-UA-Compatible\" content=\"IE=edge\">\n  <meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">\n  <link href=\"https://fonts.googleapis.com/css2?family=Montserrat&display=swap\" rel=\"stylesheet\">\n  <link rel=\"preload\" href=\"" + ___HTML_LOADER_REPLACEMENT_0___ + "\" as=\"font\" type=\"font/ttf\" crossorigin>\n  <title>Tomato timer</title>\n</head>\n<body>\n  <header>\n    <section class=\"header\">\n      <div class=\"container header__container\">\n        <img src=\"" + ___HTML_LOADER_REPLACEMENT_1___ + "\" class=\"header__logo\" alt=\"Tomato image\">\n        <h1 class=\"header__title\">Tomato timer</h1>\n      </div>\n    </section>\n  </header>\n  <main>\n    <section class=\"main\">\n      <div class=\"container main__container\">\n        <div class=\"pomodoro-form window\">\n          <div class=\"window__panel\">\n            <p class=\"window__panel-title\">Сверстать сайт</p>\n            <p class=\"window__panel-task-text\">Томат 2</p>\n          </div>\n          <div class=\"window__body\">\n            <p class=\"window__timer-text\">25:00</p>\n            <div class=\"window__buttons\">\n              <button class=\"button button-primary\">Старт</button>\n              <button class=\"button button-secondary\">Стоп</button>\n            </div>\n          </div>\n          <form class=\"task-form\" action=\"submit\">\n            <input type=\"text\" class=\"task-name input-primary\" name=\"task-name\" id=\"task-name\" placeholder=\"название задачи\">\n            <button type=\"button\" class=\"button button-importance default\" aria-label=\"Указать важность\"></button>\n            <button type=\"submit\" class=\"button button-primary task-form__add-button\">Добавить</button>\n          </form>\n        </div>\n        <div class=\"pomodoro-tasks\">\n          <p class=\"pomodoro-tasks__header-title\">\n            Инструкция:\n          </p>\n          <ul class=\"pomodoro-tasks__quest-list\">\n            <li class=\"pomodoro-tasks__list-item\">\n              Напишите название задачи чтобы её добавить\n            </li>\n            <li class=\"pomodoro-tasks__list-item\">\n              Чтобы задачу активировать, выберите её из списка\n            </li>\n            <li class=\"pomodoro-tasks__list-item\">\n              Запустите таймер\n            </li>\n            <li class=\"pomodoro-tasks__list-item\">\n              Работайте пока таймер не прозвонит\n            </li>\n            <li class=\"pomodoro-tasks__list-item\">\n              Сделайте короткий перерыв (5 минут)\n            </li>\n            <li class=\"pomodoro-tasks__list-item\">\n              Продолжайте работать, пока задача не будет выполнена.\n            </li>\n            <li class=\"pomodoro-tasks__list-item\">\n              Каждые 4 периода таймера делайте длинный перерыв (15-20 минут).\n            </li>\n          </ul>\n          <ul class=\"pomodoro-tasks__quest-tasks\">\n            <li class=\"pomodoro-tasks__list-task important\">\n              <span class=\"count-number\">1</span>\n              <button class=\"pomodoro-tasks__task-text pomodoro-tasks__task-text_active\">\n                Сверстать сайт\n              </button>\n              <button class=\"pomodoro-tasks__task-button\"></button>\n              <!-- popup menu -->\n              <div class=\"burger-popup burger-popup_active\">\n                <button class=\"popup-button burger-popup__edit-button\">Редактировать</button>\n                <button class=\"popup-button burger-popup__delete-button\">Удалить</button>\n              </div>\n            </li>\n            <li class=\"pomodoro-tasks__list-task so-so\">\n              <span class=\"count-number\">1</span>\n              <button class=\"pomodoro-tasks__task-text\">\n                Оплатить налоги\n              </button>\n              <button class=\"pomodoro-tasks__task-button\"></button>\n              <!-- popup menu -->\n\n            </li>\n            <li class=\"pomodoro-tasks__list-task default\">\n              <span class=\"count-number\">3</span>\n              <button class=\"pomodoro-tasks__task-text\">\n                Проверить валидность\n              </button>\n              <button class=\"pomodoro-tasks__task-button\"></button>\n            </li>\n          </ul>\n          <p class=\"pomodoro-tasks__deadline-timer\">1 час 30 мин</p>\n        </div>\n      </div>\n    </section>\n  </main>\n  <!-- modal with overlay -->\n  <div class=\"modal-overlay\">\n    <div class=\"modal-delete\">\n      <p class=\"modal-delete__title\">Удалить задачу?</p>\n      <button class=\"modal-delete__close-button\"></button>\n      <button class=\"modal-delete__delete-button button-primary\">Удалить</button>\n      <button class=\"modal-delete__cancel-button\">Отмена</button>\n    </div>\n  </div>\n</body>\n</html>\n";
+// Exports
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (code);
+
+/***/ }),
+
+/***/ "./node_modules/html-loader/dist/runtime/getUrl.js":
+/*!*********************************************************!*\
+  !*** ./node_modules/html-loader/dist/runtime/getUrl.js ***!
+  \*********************************************************/
+/***/ ((module) => {
+
+"use strict";
+
+
+module.exports = function (url, options) {
+  if (!options) {
+    // eslint-disable-next-line no-param-reassign
+    options = {};
+  }
+
+  if (!url) {
+    return url;
+  } // eslint-disable-next-line no-underscore-dangle, no-param-reassign
+
+
+  url = String(url.__esModule ? url.default : url);
+
+  if (options.hash) {
+    // eslint-disable-next-line no-param-reassign
+    url += options.hash;
+  }
+
+  if (options.maybeNeedQuotes && /[\t\n\f\r "'=<>`]/.test(url)) {
+    return "\"".concat(url, "\"");
+  }
+
+  return url;
+};
+
+/***/ }),
+
+/***/ "./src/scss/index.scss":
+/*!*****************************!*\
+  !*** ./src/scss/index.scss ***!
+  \*****************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+// extracted by mini-css-extract-plugin
+
+
+/***/ }),
+
 /***/ "./node_modules/regenerator-runtime/runtime.js":
 /*!*****************************************************!*\
   !*** ./node_modules/regenerator-runtime/runtime.js ***!
@@ -9864,6 +9968,28 @@ try {
 }
 
 
+/***/ }),
+
+/***/ "./src/fonts/Montserrat-Regular.ttf":
+/*!******************************************!*\
+  !*** ./src/fonts/Montserrat-Regular.ttf ***!
+  \******************************************/
+/***/ ((module, __unused_webpack_exports, __webpack_require__) => {
+
+"use strict";
+module.exports = __webpack_require__.p + "assets/ac98a5f5ca71180fe293.ttf";
+
+/***/ }),
+
+/***/ "./src/img/svg/noto_tomato.svg":
+/*!*************************************!*\
+  !*** ./src/img/svg/noto_tomato.svg ***!
+  \*************************************/
+/***/ ((module, __unused_webpack_exports, __webpack_require__) => {
+
+"use strict";
+module.exports = __webpack_require__.p + "assets/5c7ac9030497d43792f5.svg";
+
 /***/ })
 
 /******/ 	});
@@ -9892,6 +10018,108 @@ try {
 /******/ 		return module.exports;
 /******/ 	}
 /******/ 	
+/******/ 	// expose the modules object (__webpack_modules__)
+/******/ 	__webpack_require__.m = __webpack_modules__;
+/******/ 	
+/************************************************************************/
+/******/ 	/* webpack/runtime/compat get default export */
+/******/ 	(() => {
+/******/ 		// getDefaultExport function for compatibility with non-harmony modules
+/******/ 		__webpack_require__.n = (module) => {
+/******/ 			var getter = module && module.__esModule ?
+/******/ 				() => (module['default']) :
+/******/ 				() => (module);
+/******/ 			__webpack_require__.d(getter, { a: getter });
+/******/ 			return getter;
+/******/ 		};
+/******/ 	})();
+/******/ 	
+/******/ 	/* webpack/runtime/define property getters */
+/******/ 	(() => {
+/******/ 		// define getter functions for harmony exports
+/******/ 		__webpack_require__.d = (exports, definition) => {
+/******/ 			for(var key in definition) {
+/******/ 				if(__webpack_require__.o(definition, key) && !__webpack_require__.o(exports, key)) {
+/******/ 					Object.defineProperty(exports, key, { enumerable: true, get: definition[key] });
+/******/ 				}
+/******/ 			}
+/******/ 		};
+/******/ 	})();
+/******/ 	
+/******/ 	/* webpack/runtime/global */
+/******/ 	(() => {
+/******/ 		__webpack_require__.g = (function() {
+/******/ 			if (typeof globalThis === 'object') return globalThis;
+/******/ 			try {
+/******/ 				return this || new Function('return this')();
+/******/ 			} catch (e) {
+/******/ 				if (typeof window === 'object') return window;
+/******/ 			}
+/******/ 		})();
+/******/ 	})();
+/******/ 	
+/******/ 	/* webpack/runtime/hasOwnProperty shorthand */
+/******/ 	(() => {
+/******/ 		__webpack_require__.o = (obj, prop) => (Object.prototype.hasOwnProperty.call(obj, prop))
+/******/ 	})();
+/******/ 	
+/******/ 	/* webpack/runtime/make namespace object */
+/******/ 	(() => {
+/******/ 		// define __esModule on exports
+/******/ 		__webpack_require__.r = (exports) => {
+/******/ 			if(typeof Symbol !== 'undefined' && Symbol.toStringTag) {
+/******/ 				Object.defineProperty(exports, Symbol.toStringTag, { value: 'Module' });
+/******/ 			}
+/******/ 			Object.defineProperty(exports, '__esModule', { value: true });
+/******/ 		};
+/******/ 	})();
+/******/ 	
+/******/ 	/* webpack/runtime/publicPath */
+/******/ 	(() => {
+/******/ 		var scriptUrl;
+/******/ 		if (__webpack_require__.g.importScripts) scriptUrl = __webpack_require__.g.location + "";
+/******/ 		var document = __webpack_require__.g.document;
+/******/ 		if (!scriptUrl && document) {
+/******/ 			if (document.currentScript)
+/******/ 				scriptUrl = document.currentScript.src
+/******/ 			if (!scriptUrl) {
+/******/ 				var scripts = document.getElementsByTagName("script");
+/******/ 				if(scripts.length) scriptUrl = scripts[scripts.length - 1].src
+/******/ 			}
+/******/ 		}
+/******/ 		// When supporting browsers where an automatic publicPath is not supported you must specify an output.publicPath manually via configuration
+/******/ 		// or pass an empty string ("") and set the __webpack_public_path__ variable from your code to use your own logic.
+/******/ 		if (!scriptUrl) throw new Error("Automatic publicPath is not supported in this browser");
+/******/ 		scriptUrl = scriptUrl.replace(/#.*$/, "").replace(/\?.*$/, "").replace(/\/[^\/]+$/, "/");
+/******/ 		__webpack_require__.p = scriptUrl;
+/******/ 	})();
+/******/ 	
+/******/ 	/* webpack/runtime/jsonp chunk loading */
+/******/ 	(() => {
+/******/ 		__webpack_require__.b = document.baseURI || self.location.href;
+/******/ 		
+/******/ 		// object to store loaded and loading chunks
+/******/ 		// undefined = chunk not loaded, null = chunk preloaded/prefetched
+/******/ 		// [resolve, reject, Promise] = chunk loading, 0 = chunk loaded
+/******/ 		var installedChunks = {
+/******/ 			"main": 0
+/******/ 		};
+/******/ 		
+/******/ 		// no chunk on demand loading
+/******/ 		
+/******/ 		// no prefetching
+/******/ 		
+/******/ 		// no preloaded
+/******/ 		
+/******/ 		// no HMR
+/******/ 		
+/******/ 		// no HMR manifest
+/******/ 		
+/******/ 		// no on chunks loaded
+/******/ 		
+/******/ 		// no jsonp function
+/******/ 	})();
+/******/ 	
 /************************************************************************/
 var __webpack_exports__ = {};
 // This entry need to be wrapped in an IIFE because it need to be in strict mode.
@@ -9915,14 +10143,22 @@ if (_global["default"]._babelPolyfill && typeof console !== "undefined" && conso
 _global["default"]._babelPolyfill = true;
 })();
 
-// This entry need to be wrapped in an IIFE because it need to be isolated against other entry modules.
+// This entry need to be wrapped in an IIFE because it need to be in strict mode.
 (() => {
+"use strict";
 /*!**********************!*\
   !*** ./src/index.js ***!
   \**********************/
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _js_tomatoClass_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./js/tomatoClass.js */ "./src/js/tomatoClass.js");
+/* harmony import */ var _index_html__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./index.html */ "./src/index.html");
+/* harmony import */ var _scss_index_scss__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./scss/index.scss */ "./src/scss/index.scss");
 
+
+
+console.log(new _js_tomatoClass_js__WEBPACK_IMPORTED_MODULE_0__["default"]('Банан'));
 })();
 
 /******/ })()
 ;
-//# sourceMappingURL=main3a7303878f4938eff08d.js.map
+//# sourceMappingURL=main6c7184b76b855e43c671.js.map
