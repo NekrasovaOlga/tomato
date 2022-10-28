@@ -5,7 +5,7 @@ export default class Tomato {
         this.count = count;
     }
 
-    setReName(name) {
+    set ReName(name) {
         this.name = name;
         return this;
     }
