@@ -40,6 +40,148 @@ __webpack_require__(/*! regenerator-runtime/runtime */ "./node_modules/regenerat
 
 /***/ }),
 
+/***/ "./src/js/RenderTomato.js":
+/*!********************************!*\
+  !*** ./src/js/RenderTomato.js ***!
+  \********************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "RenderTomato": () => (/* binding */ RenderTomato)
+/* harmony export */ });
+/* harmony import */ var _tomato__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./tomato */ "./src/js/tomato.js");
+
+class RenderTomato {
+  constructor(list) {
+    this.list = list;
+  }
+  renderItem(el) {
+    const items = this.list.map(item => {
+      const liElem = document.createElement('li');
+      liElem.className = `pomodoro-tasks__list-task ${item.className}`;
+      const spanLi = document.createElement('span');
+      spanLi.className = 'count-number';
+      spanLi.textContent = item.id;
+      const buttonText = document.createElement('button');
+      buttonText.className = 'pomodoro-tasks__task-text';
+      buttonText.textContent = item.name;
+      buttonText.contentEditable = false;
+      buttonText.dataset.id = item.id;
+      buttonText.addEventListener('input', e => {
+        const countNumber = e.target.closest('.pomodoro-tasks__list-task').querySelector('.count-number');
+        el.changeName(countNumber.textContent, e.target.textContent);
+      });
+      buttonText.addEventListener('click', e => {
+        const activeTaskAll = document.querySelectorAll('.pomodoro-tasks__task-text_active');
+        activeTaskAll.forEach(task => {
+          task.classList.remove('pomodoro-tasks__task-text_active');
+        });
+        buttonText.classList.add('pomodoro-tasks__task-text_active');
+      });
+      const buttonTask = document.createElement('button');
+      buttonTask.className = 'pomodoro-tasks__task-button';
+      const burgeropup = document.createElement('div');
+      burgeropup.className = 'burger-popup';
+      buttonTask.addEventListener('click', e => {
+        burgeropup.classList.toggle('burger-popup_active');
+      });
+      const buttonEdit = document.createElement('button');
+      const buttonDelet = document.createElement('button');
+      buttonEdit.className = 'popup-button burger-popup__edit-button';
+      buttonDelet.className = 'popup-button burger-popup__delete-button';
+      buttonEdit.textContent = 'Редактировать';
+      buttonDelet.textContent = 'Удалить';
+      buttonDelet.addEventListener('click', e => {
+        el.deleteTask(item.id);
+        e.target.closest('.pomodoro-tasks__list-task').remove();
+      });
+      buttonEdit.addEventListener('click', e => {
+        const editButtonText = e.target.closest('.pomodoro-tasks__list-task').querySelector('.pomodoro-tasks__task-text');
+        editButtonText.contentEditable = true;
+        burgeropup.classList.remove('burger-popup_active');
+      });
+      burgeropup.append(buttonEdit, buttonDelet);
+      liElem.append(spanLi, buttonText, buttonTask, burgeropup);
+      return liElem;
+    });
+    return items;
+  }
+  init(el) {
+    const ul = document.querySelector('.pomodoro-tasks__quest-tasks');
+    const render = this.renderItem(el);
+    if (render.length <= 1) {
+      this.changeButton(el);
+    }
+    ul.innerHTML = '';
+    ul.append(...render);
+  }
+  changeButton(el) {
+    const buttonPrimary = document.querySelector('.button-primary');
+    buttonPrimary.addEventListener('click', e => {
+      const activeTaskAll = document.querySelector('.pomodoro-tasks__task-text_active');
+      el.runTask(+activeTaskAll.dataset.id);
+    });
+    const buttonSecondary = document.querySelector('.button-secondary');
+    buttonSecondary.addEventListener('click', e => {
+      el.stopTask();
+    });
+  }
+  renderEl(time, name, count) {
+    const title = document.querySelector('.window__panel-title');
+    const timerText = document.querySelector('.window__timer-text');
+    const countTask = document.querySelector('.window__panel-task-text');
+    title.textContent = name;
+    timerText.textContent = time;
+    countTask.textContent = count;
+  }
+}
+
+/***/ }),
+
+/***/ "./src/js/main.js":
+/*!************************!*\
+  !*** ./src/js/main.js ***!
+  \************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _tomatoClass_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./tomatoClass.js */ "./src/js/tomatoClass.js");
+
+let count = 0;
+const imp = ['default', 'important', 'so-so'];
+const form = document.querySelector('.task-form');
+document.querySelector('.button-importance').addEventListener('click', _ref => {
+  let {
+    target
+  } = _ref;
+  count += 1;
+  if (count >= imp.length) {
+    count = 0;
+  }
+  for (let i = 0; i < imp.length; i++) {
+    if (count === i) {
+      target.classList.add(imp[i]);
+      target.dataset.type = imp[i];
+    } else {
+      target.classList.remove(imp[i]);
+    }
+  }
+});
+const controllerTomato = new _tomatoClass_js__WEBPACK_IMPORTED_MODULE_0__.ConrollerTomato();
+form.addEventListener('submit', e => {
+  e.preventDefault();
+  const task = form['task-name'].value;
+  const typeTask = form.querySelector('.button-importance').dataset.type;
+  const className = typeTask ? typeTask : 'default';
+  controllerTomato.operation(task, className, className);
+  form.reset();
+});
+
+/***/ }),
+
 /***/ "./src/js/tomato.js":
 /*!**************************!*\
   !*** ./src/js/tomato.js ***!
@@ -51,62 +193,108 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "Tomato": () => (/* binding */ Tomato)
 /* harmony export */ });
-/* harmony import */ var _tomatoClass_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./tomatoClass.js */ "./src/js/tomatoClass.js");
+/* harmony import */ var _RenderTomato_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./RenderTomato.js */ "./src/js/RenderTomato.js");
+/* harmony import */ var _tomatoClass_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./tomatoClass.js */ "./src/js/tomatoClass.js");
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
 
 class Tomato {
   constructor(_ref) {
     let {
-      timeLead = 25,
-      pause = 5,
-      bigPause = 15
+      timeLead = 5,
+      pause = 2,
+      bigPause = 3
     } = _ref;
+    _defineProperty(this, "runTimer", 0);
+    _defineProperty(this, "startTimer", 0);
+    _defineProperty(this, "timeTask", true);
     this.timeLead = timeLead;
     this.pause = pause;
     this.bigPause = bigPause;
     this.list = [];
     this.activeList = null;
   }
-  addList(nameList, countList) {
-    this.list.push(new _tomatoClass_js__WEBPACK_IMPORTED_MODULE_0__.TomatoList(nameList, countList));
+  addList(nameList) {
+    this.list.push(nameList);
+    const renderTomato = new _RenderTomato_js__WEBPACK_IMPORTED_MODULE_0__.RenderTomato(nameList);
+    renderTomato.init(this);
   }
   activateTask(id) {
-    return this.activeList = this.list.filter(item => item.activeTomato(id));
+    return this.activeList = this.list[0].filter(item => item.activeTomato(id));
+  }
+  changeName(id, value) {
+    const index = this.list[0].findIndex(item => item.id === +id);
+    const conrtoller = new _tomatoClass_js__WEBPACK_IMPORTED_MODULE_1__.ConrollerTomato(this.list[0]);
+    conrtoller.reName(index, value);
+  }
+  deleteTask(id) {
+    clearInterval(this.runTimer);
+    const index = this.list[0].findIndex(item => item.id === +id);
+    const conrtoller = new _tomatoClass_js__WEBPACK_IMPORTED_MODULE_1__.ConrollerTomato(this.list[0]);
+    this.list = conrtoller.delList(index);
   }
   currentCount(id) {
     return this.activeList[0].increaseСount(id);
   }
-  timer(timeMinutes, count) {
-    let startTimer = timeMinutes * 60;
-    const timer = setInterval(() => {
-      let minutes = startTimer / 60 % 60;
-      let second = startTimer % 60;
-      if (startTimer >= 0) {
-        const time = `${Math.trunc(minutes)} : ${Math.trunc(second)}`;
-        console.log(time);
+  timerCall() {
+    let pause;
+    const timer = (render, taskActive) => {
+      let minutes = this.startTimer / 60 % 60;
+      let second = this.startTimer % 60;
+      if (this.startTimer >= 0) {
+        const time = `${Math.trunc(minutes)} : ${second < 10 ? "0" + Math.trunc(second) : Math.trunc(second)}`;
+        render.renderEl(time, taskActive.name, taskActive.count);
       } else {
-        clearInterval(timer);
-        this.currentCount(count.id);
-        console.log(this.activeList);
-        if (timeMinutes === this.timeLead) {
-          this.timerPause(count);
+        clearInterval(this.runTimer);
+        console.log(taskActive);
+        if (this.timeTask) {
+          this.currentCount(taskActive.id);
+          pause = this.timerPause(taskActive);
+          this.startTimer = pause * 60;
+          this.timerCall();
+          this.runTimer = setInterval(function () {
+            timer(render, taskActive);
+          }, 1000);
+        } else {
+          this.timeTask = true;
+          this.startTimer = this.timeLead * 60;
+          this.timerCall();
+          this.runTimer = setInterval(function () {
+            timer(render, taskActive);
+          }, 1000);
         }
       }
-      startTimer = startTimer - 60;
-    }, 1000);
+      this.startTimer = this.startTimer - 30;
+    };
+    return timer;
   }
-  timerPause(count) {
-    if (count.count % 3 == 0 && this.countTime !== 0) {
-      this.timer(this.bigPause, count);
+  timerPause(taskActive) {
+    if (taskActive.count % 3 == 0 && this.countTime !== 0) {
+      this.timeTask = false;
+      return this.bigPause;
     } else {
-      this.timer(this.pause, count);
+      this.timeTask = false;
+      return this.pause;
     }
   }
-  runTask() {
-    if (this.activeList) {
-      this.timer(this.timeLead, ...this.activeList);
+  runTask(id) {
+    const renderTomato = new _RenderTomato_js__WEBPACK_IMPORTED_MODULE_0__.RenderTomato();
+    clearInterval(this.runTimer);
+    const active = this.activateTask(id);
+    this.startTimer = 0;
+    if (active) {
+      this.startTimer = this.startTimer === 0 ? this.timeLead * 60 : this.startTimer;
+      const timer = this.timerCall();
+      this.runTimer = setInterval(function () {
+        timer(renderTomato, active[0]);
+      }, 1000);
     } else {
-      console.log('Нет активной задачи');
+      console.log("Нет активной задачи");
     }
+  }
+  stopTask() {
+    this.activeList = null;
+    clearInterval(this.runTimer);
   }
 }
 
@@ -121,18 +309,29 @@ class Tomato {
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "TomatoList": () => (/* binding */ TomatoList)
+/* harmony export */   "ConrollerTomato": () => (/* binding */ ConrollerTomato),
+/* harmony export */   "ImportantTask": () => (/* binding */ ImportantTask),
+/* harmony export */   "StandardTask": () => (/* binding */ StandardTask),
+/* harmony export */   "TomatoList": () => (/* binding */ TomatoList),
+/* harmony export */   "UnimportanTask": () => (/* binding */ UnimportanTask)
 /* harmony export */ });
+/* harmony import */ var _tomato__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./tomato */ "./src/js/tomato.js");
+function _classPrivateFieldInitSpec(obj, privateMap, value) { _checkPrivateRedeclaration(obj, privateMap); privateMap.set(obj, value); }
+function _checkPrivateRedeclaration(obj, privateCollection) { if (privateCollection.has(obj)) { throw new TypeError("Cannot initialize the same private elements twice on an object"); } }
+function _classPrivateFieldGet(receiver, privateMap) { var descriptor = _classExtractFieldDescriptor(receiver, privateMap, "get"); return _classApplyDescriptorGet(receiver, descriptor); }
+function _classExtractFieldDescriptor(receiver, privateMap, action) { if (!privateMap.has(receiver)) { throw new TypeError("attempted to " + action + " private field on non-instance"); } return privateMap.get(receiver); }
+function _classApplyDescriptorGet(receiver, descriptor) { if (descriptor.get) { return descriptor.get.call(receiver); } return descriptor.value; }
+
 class TomatoList {
-  constructor(name) {
-    let count = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 0;
-    this.id = Math.floor(Math.random() * 10000);
+  constructor(name, className, id) {
+    let count = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : 0;
+    this.id = id;
     this.name = name;
     this.count = count;
+    this.className = className;
   }
-  set ReName(name) {
+  reName(name) {
     this.name = name;
-    return this;
   }
   increaseСount(id) {
     if (id === this.id) {
@@ -140,9 +339,70 @@ class TomatoList {
     }
   }
   activeTomato(id) {
-    if (id === this.id) {
+    if (+id === this.id) {
       return this;
     }
+  }
+}
+class ImportantTask extends TomatoList {
+  constructor(name, className, id) {
+    let importance = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : 'Важная задача';
+    super(name, className, id);
+    this.importance = importance;
+  }
+}
+class StandardTask extends TomatoList {
+  constructor(name, className, id) {
+    let importance = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : 'Стандартная задача';
+    super(name, className, id);
+    this.importance = importance;
+  }
+}
+class UnimportanTask extends TomatoList {
+  constructor(name, className, id) {
+    let importance = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : 'Неважная задача';
+    super(name, className, id);
+    this.importance = importance;
+  }
+}
+var _importance = /*#__PURE__*/new WeakMap();
+class ConrollerTomato {
+  constructor() {
+    let command = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : [];
+    _classPrivateFieldInitSpec(this, _importance, {
+      writable: true,
+      value: {
+        'default': UnimportanTask,
+        'important': StandardTask,
+        'so-so': ImportantTask
+      }
+    });
+    this.command = command;
+  }
+  operation(name, className, operation) {
+    const Command = _classPrivateFieldGet(this, _importance)[operation];
+    const lengthArr = this.command.length + 1;
+    const command = new Command(name, className, lengthArr);
+    this.command.push(command);
+    const task = new _tomato__WEBPACK_IMPORTED_MODULE_0__.Tomato({});
+    task.addList(this.command);
+  }
+  delList(id) {
+    if (id !== -1) {
+      this.command.splice(id, 1);
+    }
+    return this.command;
+  }
+  reName(id, value) {
+    const newList = this.command.map((item, index) => {
+      if (id === index) {
+        item.reName(value);
+        return item;
+      } else {
+        return item;
+      }
+    });
+    return this.command = newList;
   }
 }
 
@@ -9224,7 +9484,7 @@ var ___HTML_LOADER_IMPORT_1___ = new URL(/* asset import */ __webpack_require__(
 // Module
 var ___HTML_LOADER_REPLACEMENT_0___ = _node_modules_html_loader_dist_runtime_getUrl_js__WEBPACK_IMPORTED_MODULE_0___default()(___HTML_LOADER_IMPORT_0___);
 var ___HTML_LOADER_REPLACEMENT_1___ = _node_modules_html_loader_dist_runtime_getUrl_js__WEBPACK_IMPORTED_MODULE_0___default()(___HTML_LOADER_IMPORT_1___);
-var code = "<!DOCTYPE html>\n<html lang=\"ru\">\n<head>\n  <meta charset=\"UTF-8\">\n  <meta http-equiv=\"X-UA-Compatible\" content=\"IE=edge\">\n  <meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">\n  <link href=\"https://fonts.googleapis.com/css2?family=Montserrat&display=swap\" rel=\"stylesheet\">\n  <link rel=\"preload\" href=\"" + ___HTML_LOADER_REPLACEMENT_0___ + "\" as=\"font\" type=\"font/ttf\" crossorigin>\n  <title>Tomato timer</title>\n</head>\n<body>\n  <header>\n    <section class=\"header\">\n      <div class=\"container header__container\">\n        <img src=\"" + ___HTML_LOADER_REPLACEMENT_1___ + "\" class=\"header__logo\" alt=\"Tomato image\">\n        <h1 class=\"header__title\">Tomato timer</h1>\n      </div>\n    </section>\n  </header>\n  <main>\n    <section class=\"main\">\n      <div class=\"container main__container\">\n        <div class=\"pomodoro-form window\">\n          <div class=\"window__panel\">\n            <p class=\"window__panel-title\">Сверстать сайт</p>\n            <p class=\"window__panel-task-text\">Томат 2</p>\n          </div>\n          <div class=\"window__body\">\n            <p class=\"window__timer-text\">25:00</p>\n            <div class=\"window__buttons\">\n              <button class=\"button button-primary\">Старт</button>\n              <button class=\"button button-secondary\">Стоп</button>\n            </div>\n          </div>\n          <form class=\"task-form\" action=\"submit\">\n            <input type=\"text\" class=\"task-name input-primary\" name=\"task-name\" id=\"task-name\" placeholder=\"название задачи\">\n            <button type=\"button\" class=\"button button-importance default\" aria-label=\"Указать важность\"></button>\n            <button type=\"submit\" class=\"button button-primary task-form__add-button\">Добавить</button>\n          </form>\n        </div>\n        <div class=\"pomodoro-tasks\">\n          <p class=\"pomodoro-tasks__header-title\">\n            Инструкция:\n          </p>\n          <ul class=\"pomodoro-tasks__quest-list\">\n            <li class=\"pomodoro-tasks__list-item\">\n              Напишите название задачи чтобы её добавить\n            </li>\n            <li class=\"pomodoro-tasks__list-item\">\n              Чтобы задачу активировать, выберите её из списка\n            </li>\n            <li class=\"pomodoro-tasks__list-item\">\n              Запустите таймер\n            </li>\n            <li class=\"pomodoro-tasks__list-item\">\n              Работайте пока таймер не прозвонит\n            </li>\n            <li class=\"pomodoro-tasks__list-item\">\n              Сделайте короткий перерыв (5 минут)\n            </li>\n            <li class=\"pomodoro-tasks__list-item\">\n              Продолжайте работать, пока задача не будет выполнена.\n            </li>\n            <li class=\"pomodoro-tasks__list-item\">\n              Каждые 4 периода таймера делайте длинный перерыв (15-20 минут).\n            </li>\n          </ul>\n          <ul class=\"pomodoro-tasks__quest-tasks\">\n            <li class=\"pomodoro-tasks__list-task important\">\n              <span class=\"count-number\">1</span>\n              <button class=\"pomodoro-tasks__task-text pomodoro-tasks__task-text_active\">\n                Сверстать сайт\n              </button>\n              <button class=\"pomodoro-tasks__task-button\"></button>\n              <!-- popup menu -->\n              <div class=\"burger-popup burger-popup_active\">\n                <button class=\"popup-button burger-popup__edit-button\">Редактировать</button>\n                <button class=\"popup-button burger-popup__delete-button\">Удалить</button>\n              </div>\n            </li>\n            <li class=\"pomodoro-tasks__list-task so-so\">\n              <span class=\"count-number\">1</span>\n              <button class=\"pomodoro-tasks__task-text\">\n                Оплатить налоги\n              </button>\n              <button class=\"pomodoro-tasks__task-button\"></button>\n              <!-- popup menu -->\n\n            </li>\n            <li class=\"pomodoro-tasks__list-task default\">\n              <span class=\"count-number\">3</span>\n              <button class=\"pomodoro-tasks__task-text\">\n                Проверить валидность\n              </button>\n              <button class=\"pomodoro-tasks__task-button\"></button>\n            </li>\n          </ul>\n          <p class=\"pomodoro-tasks__deadline-timer\">1 час 30 мин</p>\n        </div>\n      </div>\n    </section>\n  </main>\n  <!-- modal with overlay -->\n  <div class=\"modal-overlay\">\n    <div class=\"modal-delete\">\n      <p class=\"modal-delete__title\">Удалить задачу?</p>\n      <button class=\"modal-delete__close-button\"></button>\n      <button class=\"modal-delete__delete-button button-primary\">Удалить</button>\n      <button class=\"modal-delete__cancel-button\">Отмена</button>\n    </div>\n  </div>\n</body>\n</html>\n";
+var code = "<!DOCTYPE html>\n<html lang=\"ru\">\n<head>\n  <meta charset=\"UTF-8\">\n  <meta http-equiv=\"X-UA-Compatible\" content=\"IE=edge\">\n  <meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">\n  <link href=\"https://fonts.googleapis.com/css2?family=Montserrat&display=swap\" rel=\"stylesheet\">\n  <link rel=\"preload\" href=\"" + ___HTML_LOADER_REPLACEMENT_0___ + "\" as=\"font\" type=\"font/ttf\" crossorigin>\n  <title>Tomato timer</title>\n</head>\n<body>\n  <header>\n    <section class=\"header\">\n      <div class=\"container header__container\">\n        <img src=\"" + ___HTML_LOADER_REPLACEMENT_1___ + "\" class=\"header__logo\" alt=\"Tomato image\">\n        <h1 class=\"header__title\">Tomato timer</h1>\n      </div>\n    </section>\n  </header>\n  <main>\n    <section class=\"main\">\n      <div class=\"container main__container\">\n        <div class=\"pomodoro-form window\">\n          <div class=\"window__panel\">\n            <p class=\"window__panel-title\"></p>\n            <p class=\"window__panel-task-text\"></p>\n          </div>\n          <div class=\"window__body\">\n            <p class=\"window__timer-text\">25:00</p>\n            <div class=\"window__buttons\">\n              <button class=\"button button-primary\">Старт</button>\n              <button class=\"button button-secondary\">Стоп</button>\n            </div>\n          </div>\n          <form class=\"task-form\" action=\"submit\">\n            <input type=\"text\" class=\"task-name input-primary\" name=\"task-name\" id=\"task-name\" placeholder=\"название задачи\">\n            <button type=\"button\" class=\"button button-importance default\" aria-label=\"Указать важность\"></button>\n            <button type=\"submit\" class=\"button button-primary task-form__add-button\">Добавить</button>\n          </form>\n        </div>\n        <div class=\"pomodoro-tasks\">\n          <p class=\"pomodoro-tasks__header-title\">\n            Инструкция:\n          </p>\n          <ul class=\"pomodoro-tasks__quest-list\">\n            <li class=\"pomodoro-tasks__list-item\">\n              Напишите название задачи чтобы её добавить\n            </li>\n            <li class=\"pomodoro-tasks__list-item\">\n              Чтобы задачу активировать, выберите её из списка\n            </li>\n            <li class=\"pomodoro-tasks__list-item\">\n              Запустите таймер\n            </li>\n            <li class=\"pomodoro-tasks__list-item\">\n              Работайте пока таймер не прозвонит\n            </li>\n            <li class=\"pomodoro-tasks__list-item\">\n              Сделайте короткий перерыв (5 минут)\n            </li>\n            <li class=\"pomodoro-tasks__list-item\">\n              Продолжайте работать, пока задача не будет выполнена.\n            </li>\n            <li class=\"pomodoro-tasks__list-item\">\n              Каждые 4 периода таймера делайте длинный перерыв (15-20 минут).\n            </li>\n          </ul>\n          <ul class=\"pomodoro-tasks__quest-tasks\">\n          </ul>\n          <p class=\"pomodoro-tasks__deadline-timer\">1 час 30 мин</p>\n        </div>\n      </div>\n    </section>\n  </main>\n  <!-- modal with overlay -->\n  <div class=\"modal-overlay\">\n    <div class=\"modal-delete\">\n      <p class=\"modal-delete__title\">Удалить задачу?</p>\n      <button class=\"modal-delete__close-button\"></button>\n      <button class=\"modal-delete__delete-button button-primary\">Удалить</button>\n      <button class=\"modal-delete__cancel-button\">Отмена</button>\n    </div>\n  </div>\n</body>\n</html>\n";
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (code);
 
@@ -10229,23 +10489,14 @@ _global["default"]._babelPolyfill = true;
   !*** ./src/index.js ***!
   \**********************/
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _js_tomato__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./js/tomato */ "./src/js/tomato.js");
-/* harmony import */ var _js_tomatoClass_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./js/tomatoClass.js */ "./src/js/tomatoClass.js");
-/* harmony import */ var _index_html__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./index.html */ "./src/index.html");
-/* harmony import */ var _scss_index_scss__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./scss/index.scss */ "./src/scss/index.scss");
+/* harmony import */ var _js_main_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./js/main.js */ "./src/js/main.js");
+/* harmony import */ var _index_html__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./index.html */ "./src/index.html");
+/* harmony import */ var _scss_index_scss__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./scss/index.scss */ "./src/scss/index.scss");
 
 
 
-
-const tomat = new _js_tomato__WEBPACK_IMPORTED_MODULE_0__.Tomato({
-  timeLead: 25
-});
-const banana = tomat.addList('Банан');
-tomat.addList('Кокос');
-tomat.activateTask(tomat.list[0].id);
-tomat.runTask();
 })();
 
 /******/ })()
 ;
-//# sourceMappingURL=mainf9c5fac702911eabc574.js.map
+//# sourceMappingURL=mainc81f7382abeeee9e6735.js.map

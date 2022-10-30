@@ -502,10 +502,11 @@ fieldset {
 
 .window__timer-text {
   color: #333333;
-  font-size: 150px;
+  font-size: 120px;
   line-height: 183px;
   margin-bottom: 36px;
   text-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+  text-align: center;
 }
 
 .window__buttons {
@@ -752,4 +753,4 @@ fieldset {
   background-color: #E5E5E5;
 }
 
-/*# sourceMappingURL=maind79af7a1218f8ebea8e3.css.map*/
+/*# sourceMappingURL=mainedeb277f227ed48226ff.css.map*/
