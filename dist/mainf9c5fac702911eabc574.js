@@ -40,6 +40,78 @@ __webpack_require__(/*! regenerator-runtime/runtime */ "./node_modules/regenerat
 
 /***/ }),
 
+/***/ "./src/js/tomato.js":
+/*!**************************!*\
+  !*** ./src/js/tomato.js ***!
+  \**************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "Tomato": () => (/* binding */ Tomato)
+/* harmony export */ });
+/* harmony import */ var _tomatoClass_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./tomatoClass.js */ "./src/js/tomatoClass.js");
+
+class Tomato {
+  constructor(_ref) {
+    let {
+      timeLead = 25,
+      pause = 5,
+      bigPause = 15
+    } = _ref;
+    this.timeLead = timeLead;
+    this.pause = pause;
+    this.bigPause = bigPause;
+    this.list = [];
+    this.activeList = null;
+  }
+  addList(nameList, countList) {
+    this.list.push(new _tomatoClass_js__WEBPACK_IMPORTED_MODULE_0__.TomatoList(nameList, countList));
+  }
+  activateTask(id) {
+    return this.activeList = this.list.filter(item => item.activeTomato(id));
+  }
+  currentCount(id) {
+    return this.activeList[0].increaseСount(id);
+  }
+  timer(timeMinutes, count) {
+    let startTimer = timeMinutes * 60;
+    const timer = setInterval(() => {
+      let minutes = startTimer / 60 % 60;
+      let second = startTimer % 60;
+      if (startTimer >= 0) {
+        const time = `${Math.trunc(minutes)} : ${Math.trunc(second)}`;
+        console.log(time);
+      } else {
+        clearInterval(timer);
+        this.currentCount(count.id);
+        console.log(this.activeList);
+        if (timeMinutes === this.timeLead) {
+          this.timerPause(count);
+        }
+      }
+      startTimer = startTimer - 60;
+    }, 1000);
+  }
+  timerPause(count) {
+    if (count.count % 3 == 0 && this.countTime !== 0) {
+      this.timer(this.bigPause, count);
+    } else {
+      this.timer(this.pause, count);
+    }
+  }
+  runTask() {
+    if (this.activeList) {
+      this.timer(this.timeLead, ...this.activeList);
+    } else {
+      console.log('Нет активной задачи');
+    }
+  }
+}
+
+/***/ }),
+
 /***/ "./src/js/tomatoClass.js":
 /*!*******************************!*\
   !*** ./src/js/tomatoClass.js ***!
@@ -49,21 +121,28 @@ __webpack_require__(/*! regenerator-runtime/runtime */ "./node_modules/regenerat
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "default": () => (/* binding */ Tomato)
+/* harmony export */   "TomatoList": () => (/* binding */ TomatoList)
 /* harmony export */ });
-class Tomato {
+class TomatoList {
   constructor(name) {
     let count = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 0;
     this.id = Math.floor(Math.random() * 10000);
     this.name = name;
     this.count = count;
   }
-  setReName(name) {
+  set ReName(name) {
     this.name = name;
     return this;
   }
-  increaseСount() {
-    this.count = this.count + 1;
+  increaseСount(id) {
+    if (id === this.id) {
+      return this.count = this.count + 1;
+    }
+  }
+  activeTomato(id) {
+    if (id === this.id) {
+      return this;
+    }
   }
 }
 
@@ -10150,15 +10229,23 @@ _global["default"]._babelPolyfill = true;
   !*** ./src/index.js ***!
   \**********************/
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _js_tomatoClass_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./js/tomatoClass.js */ "./src/js/tomatoClass.js");
-/* harmony import */ var _index_html__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./index.html */ "./src/index.html");
-/* harmony import */ var _scss_index_scss__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./scss/index.scss */ "./src/scss/index.scss");
+/* harmony import */ var _js_tomato__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./js/tomato */ "./src/js/tomato.js");
+/* harmony import */ var _js_tomatoClass_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./js/tomatoClass.js */ "./src/js/tomatoClass.js");
+/* harmony import */ var _index_html__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./index.html */ "./src/index.html");
+/* harmony import */ var _scss_index_scss__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./scss/index.scss */ "./src/scss/index.scss");
 
 
 
-console.log(new _js_tomatoClass_js__WEBPACK_IMPORTED_MODULE_0__["default"]('Банан'));
+
+const tomat = new _js_tomato__WEBPACK_IMPORTED_MODULE_0__.Tomato({
+  timeLead: 25
+});
+const banana = tomat.addList('Банан');
+tomat.addList('Кокос');
+tomat.activateTask(tomat.list[0].id);
+tomat.runTask();
 })();
 
 /******/ })()
 ;
-//# sourceMappingURL=main6c7184b76b855e43c671.js.map
+//# sourceMappingURL=mainf9c5fac702911eabc574.js.map

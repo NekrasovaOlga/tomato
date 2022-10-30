@@ -1,4 +1,4 @@
-export default class Tomato {
+export class TomatoList {
     constructor(name, count = 0){
         this.id = Math.floor(Math.random() * 10000);
         this.name = name;
@@ -10,7 +10,15 @@ export default class Tomato {
         return this;
     }
 
-    increaseСount() {
-        this.count = this.count + 1;
+    increaseСount(id) {
+        if(id === this.id) {
+            return this.count = this.count + 1;
+        }
+       
+    }
+    activeTomato(id){
+        if(id === this.id) {
+            return this;
+        }
     }
 }
